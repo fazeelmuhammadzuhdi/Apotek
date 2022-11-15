@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +24,8 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::group(['middleware' => ['role:owner']], function () {
+    Route::get('supplier-index', [SupplierController::class, 'index'])->name('supplier.index');
+});
 
 require __DIR__ . '/auth.php';
