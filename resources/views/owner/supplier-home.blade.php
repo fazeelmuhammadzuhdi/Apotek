@@ -80,9 +80,12 @@
 </x-app-layout>
 @stack('js')
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(document).ready(function() {
         loaddata()
+        toastr.info('Are you the 6 fingered man?')
     });
 
     function loaddata(params) {
@@ -142,10 +145,11 @@
                 console.log(response);
                 $('#btn-tutup').click()
                 $('#table').DataTable().ajax.reload()
-                alert(response.text)
+                toastr.success(response.text, 'Success')
+
             },
             error: function(xhr) {
-                console.log(xhr);
+                toastr.error(xhr.responseJSON.text, 'Gagal!')
             }
         });
     })
@@ -180,21 +184,53 @@
     //HAPUS
     $(document).on('click', '.hapus', function() {
         let id = $(this).attr('id')
-        $.ajax({
-            type: "post",
-            url: "{{ route('supplier.hapus') }}",
-            data: {
-                id: id,
-                _token: "{{ csrf_token() }}"
-            },
-            success: function(response) {
-                console.log(response);
-                  $('#table').DataTable().ajax.reload()
-                alert(response.text)
-            },
-            error: function(xhr) {
-                console.log(xhr);
+
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('supplier.hapus') }}",
+                    data: {
+                        id: id,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response, status) {
+                        if (status = '200') {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Data Berhasil Di Hapus',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((response) => {
+                                    $('#table').DataTable().ajax.reload()
+
+                                })
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Gagal Menghapus!',
+                        })
+                    }
+                });
             }
-        });
+        })
+
+
+
     })
 </script>

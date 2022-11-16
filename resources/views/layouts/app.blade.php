@@ -23,6 +23,8 @@
 
     <link rel="stylesheet" href={{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}>
     <link rel="stylesheet" href={{ asset('plugins/datatables/datatables.css') }}>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     {{-- <link rel="stylesheet" href={{ asset('plugins/daterangepicker/daterangepicker.css') }}> --}}
 
