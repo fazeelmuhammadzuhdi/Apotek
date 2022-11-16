@@ -26,6 +26,10 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::group(['middleware' => ['role:owner']], function () {
     Route::get('supplier-index', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::post('supplier-store', [SupplierController::class, 'store'])->name('supplier.store');
+    Route::post('supplier-edit', [SupplierController::class, 'edit'])->name('supplier.edit');
+    Route::post('supplier-update', [SupplierController::class, 'update'])->name('supplier.update');
+    Route::post('supplier-hapus', [SupplierController::class, 'destroy'])->name('supplier.hapus');
 });
 
 require __DIR__ . '/auth.php';

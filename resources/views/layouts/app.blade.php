@@ -28,7 +28,7 @@
 
     {{-- <link rel="stylesheet" href={{ asset('plugins/summernote/summernote-bs4.min.css') }}> --}}
 
-    <script nonce="5afad67b-51f7-4bf2-a8c8-a96bf46798e6">
+    {{-- <script nonce="5afad67b-51f7-4bf2-a8c8-a96bf46798e6">
         (function(w, d) {
             ! function(e, f, g, h) {
                 e.zarazData = e.zarazData || {};
@@ -92,7 +92,7 @@
                     "DOMContentLoaded", zaraz.init)
             }(w, d, 0, "script");
         })(window, document);
-    </script>
+    </script> --}}
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
