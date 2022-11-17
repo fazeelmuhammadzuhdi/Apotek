@@ -64,7 +64,7 @@
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <textarea name="alamat" id="alamat" rows="5" class="form-control" placeholder="Alamat Email"></textarea>
+                            <textarea name="alamat" id="alamat" rows="5" class="form-control" placeholder="Inputkan Alamat"></textarea>
                         </div>
 
                         <div class="modal-footer justify-content-between">
@@ -229,8 +229,6 @@
                 });
             }
         })
-
-
 
     })
 </script>

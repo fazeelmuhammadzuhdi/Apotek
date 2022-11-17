@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SupplierController extends Controller
 {
@@ -26,6 +27,32 @@ class SupplierController extends Controller
 
     public function store(Request $request)
     {
+
+        $rules = [
+            'nama' => 'required',
+            'telp' => 'required|min:12|unique:suppliers,telp',
+            'email' => 'required|unique:suppliers,email',
+            'rekening' => 'required|unique:suppliers,rekening',
+            'alamat' => 'required',
+        ];
+
+        $text = [
+            'nama.required' => 'Kolom Nama Tidak Boleh Kosong',
+            'telp.required' => 'Kolom Telepon Tidak Boleh Kosong',
+            'telp.unique' => 'No Telepon Sudah Terdaftar',
+            'telp.min' => 'Inputkan Kurang dari 12',
+            'email.required' => 'Kolom Email Tidak Boleh Kosong',
+            'email.unique' => 'Email Sudah Terdaftar',
+            'alamat.required' => 'Kolom Alamat Tidak Boleh Kosong',
+            'rekening.required' => 'Kolom Rekening Tidak Boleh Kosong',
+            'rekening.unique' => 'No Rekening Sudah Terdaftar',
+        ];
+
+        $validasi = Validator::make($request->all(), $rules, $text);
+
+        if ($validasi->fails()) {
+            return response()->json(['success' => 0, 'text' => $validasi->errors()->first()], 400);
+        }
         // dd($request->all());
         $simpan = Supplier::create($request->all());
 
