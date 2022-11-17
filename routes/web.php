@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\StockObatController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,11 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::post('obat-edit', [ObatController::class, 'edit'])->name('obat.edit');
     Route::post('obat-update', [ObatController::class, 'update'])->name('obat.update');
     Route::post('obat-hapus', [ObatController::class, 'destroy'])->name('obat.hapus');
+
+    Route::get('stock-index', [StockObatController::class, 'index'])->name('stock.index');
+    Route::post('stock-store', [StockObatController::class, 'store'])->name('stock.store');
+    Route::post('getObat', [StockObatController::class, 'getObat'])->name('get.obat');
+   
 });
 
 require __DIR__ . '/auth.php';

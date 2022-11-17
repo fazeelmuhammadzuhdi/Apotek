@@ -25,7 +25,8 @@
     <link rel="stylesheet" href={{ asset('plugins/datatables/datatables.css') }}>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.2/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
+    {{-- <link rel="stylesheet" href="{{ asset('plugins/air-datepicker/air-datepicker.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     {{-- <link rel="stylesheet" href={{ asset('plugins/daterangepicker/daterangepicker.css') }}> --}}
 
     {{-- <link rel="stylesheet" href={{ asset('plugins/summernote/summernote-bs4.min.css') }}> --}}
@@ -160,7 +161,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{ route('stock.index') }}" class="nav-link">
                                             <i class="fas fa-notes-medical nav-icon"></i>
                                             <p>Stock Obat</p>
                                         </a>

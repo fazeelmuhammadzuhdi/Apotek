@@ -202,6 +202,7 @@
         });
     })
 
+
     //HAPUS
     $(document).on('click', '.hapus', function() {
         let id = $(this).attr('id')
