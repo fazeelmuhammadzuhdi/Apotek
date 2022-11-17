@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ObatController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,13 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::post('supplier-edit', [SupplierController::class, 'edit'])->name('supplier.edit');
     Route::post('supplier-update', [SupplierController::class, 'update'])->name('supplier.update');
     Route::post('supplier-hapus', [SupplierController::class, 'destroy'])->name('supplier.hapus');
+
+
+    Route::get('obat-index', [ObatController::class, 'index'])->name('obat.index');
+    Route::post('obat-store', [ObatController::class, 'store'])->name('obat.store');
+    Route::post('obat-edit', [ObatController::class, 'edit'])->name('obat.edit');
+    Route::post('obat-update', [ObatController::class, 'update'])->name('obat.update');
+    Route::post('obat-hapus', [ObatController::class, 'destroy'])->name('obat.hapus');
 });
 
 require __DIR__ . '/auth.php';
