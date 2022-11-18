@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Obat;
 use App\Models\StockObat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockObatController extends Controller
 {
@@ -28,7 +29,25 @@ class StockObatController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        //   dd($request->all());
+        $data = new StockObat();
+        $data->idObat = $request->obat;
+        $data->masuk  = $request->masuk;
+        $data->keluar = $request->keluar;
+        $data->jual  = $request->jual;
+        $data->beli = $request->beli;
+        $data->expired = $request->expired;
+        $data->stock = $request->stock;
+        $data->keterangan = $request->keterangan;
+
+        $simpan = $data->save();
+
+        if ($simpan) {
+            DB::table('obats')->where('id', $request->obat)->update(['ready' => 'Y']);
+            return response()->json(['text' => 'Data Berhasil Di Simpan'], 200);
+        } else {
+            return response()->json(['text' => 'Data Gagal Di Simpan'], 400);
+        }
     }
 
     public function getObat(Request $request)

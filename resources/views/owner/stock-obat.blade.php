@@ -101,8 +101,8 @@
                         </div>
                         <div class="form-group">
                             <label for="">Tanggal Expired</label>
-                            <input type="text" class="datepicker-days form-control" date-language="en"
-                                autocomplete="off" name="expired" id="expired" onkeypress="return number(event)">
+                            <input type="date" class=" form-control" autocomplete="off" name="expired"
+                                id="expired" onkeypress="return number(event)">
                         </div>
                         <div class="form-group">
                             <label for="">Keterangan</label>
@@ -112,8 +112,8 @@
                         <button type="submit" id="simpan"
                             class="btn btn-outline-light btn-success btn-block">Simpan</button>
                         <div class="mt-3">
-                            <button type="button" name="batal" id="btn-tutup" class="btn btn-outline-light"
-                                data-dismiss="modal">Close</button>
+                            <button type="button" name="batal" id="btn-tutup" hidden
+                                class="btn btn-outline-light" data-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>
@@ -181,6 +181,7 @@
         })
     }
 
+    //Input Harus Number
     function number(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -188,6 +189,30 @@
         }
         return true;
     }
+
+    //Mengirim Data
+    $(document).on('submit', 'form', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            typeData: "JSON",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(response);
+                $('#btn-tutup').click()
+                $('#table').DataTable().ajax.reload()
+                $('#forms')[0].reset();
+                toastr.success(response.text, 'Success')
+
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON.text, 'Gagal!')
+            }
+        });
+    })
 
     $(document).on('change', '#obat', function() {
         let id = $(this).val()

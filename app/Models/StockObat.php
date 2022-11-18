@@ -11,7 +11,14 @@ class StockObat extends Model
     use HasFactory;
 
     protected $fillable = [
-        'idObat', 'masuk', 'keluar', 'jual', 'beli', 'expired', 'stock', 'keterangan'
+        'idObat', 
+        'masuk', 
+        'keluar', 
+        'jual', 
+        'beli', 
+        'expired', 
+        'stock', 
+        'keterangan'
     ];
 
 
