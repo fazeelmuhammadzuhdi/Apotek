@@ -17,12 +17,13 @@
                     <thead>
                         <tr class="text-center">
                             <th>No.</th>
-                            <th>Nama stock</th>
+                            <th>Nama Obat</th>
                             <th>Harga Beli</th>
                             <th>Harga Jual</th>
                             <th>Stock</th>
                             <th>Keterangan</th>
                             <th>Update Terakhir</th>
+                            <th>Admin</th>
                             <th width="15%">Aksi</th>
                         </tr>
                     </thead>
@@ -172,6 +173,11 @@
                     data: 'updated_at',
                     name: 'updated_at'
                 },
+                {
+                    data: 'admins',
+                    name: 'admins'
+                },
+
                 {
                     data: 'aksi',
                     name: 'aksi',

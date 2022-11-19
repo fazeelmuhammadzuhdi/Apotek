@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StockObatController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,8 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::get('stock-index', [StockObatController::class, 'index'])->name('stock.index');
     Route::post('stock-store', [StockObatController::class, 'store'])->name('stock.store');
     Route::post('getObat', [StockObatController::class, 'getObat'])->name('get.obat');
-   
+
+    Route::get('penjualan-index', [PenjualanController::class, 'index'])->name('penjualan.index');
 });
 
 require __DIR__ . '/auth.php';

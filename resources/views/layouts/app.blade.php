@@ -173,7 +173,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{ route('penjualan.index') }}" class="nav-link">
                                             <i class="fas fa-notes-medical nav-icon"></i>
                                             <p>Data Penjualan</p>
                                         </a>
@@ -302,7 +302,7 @@
 
             <section class="content">
                 <div class="container-fluid">
-                    @role('owner')
+                    {{-- @role('owner')
                         <div class="row">
                             <div class="col-lg-3 col-6">
 
@@ -365,7 +365,7 @@
                             </div>
 
                         </div>
-                    @endrole
+                    @endrole --}}
 
                     <div class="row">
 

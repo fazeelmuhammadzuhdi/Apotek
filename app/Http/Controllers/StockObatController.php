@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Obat;
 use App\Models\StockObat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StockObatController extends Controller
@@ -39,6 +40,7 @@ class StockObatController extends Controller
         $data->expired = $request->expired;
         $data->stock = $request->stock;
         $data->keterangan = $request->keterangan;
+        $data->admin = Auth::user()->id;
 
         $simpan = $data->save();
 
