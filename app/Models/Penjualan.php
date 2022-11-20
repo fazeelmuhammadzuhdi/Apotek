@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Penjualan extends Model
 {
@@ -22,4 +23,30 @@ class Penjualan extends Model
         'consumer',
         'kasir',
     ];
+
+    public static function join()
+    {
+        return $data = DB::table('penjualans')
+            ->join('obats', 'obats.id', '=', 'penjualans.item')
+            ->join('pasiens', 'pasiens.id', '=', 'penjualans.consumer')
+            ->join('stock_obats', 'stock_obats.idObat', '=', 'obats.id')
+            ->join('users', 'users.id', '=', 'penjualans.kasir')
+            ->select(
+                'penjualans.*',
+                'obats.nama as nama_obat',
+                'users.name',
+                'stock_obats.jual',
+                'pasiens.nama as customer',
+            );
+    }
+
+    public static function hitung($id)
+    {
+        $data = Penjualan::where('nota', $id)
+            ->selectRaw('SUM(subtotal) as totalHarga')
+            ->selectRaw('nota')
+            ->groupBy('nota');
+
+        return $data;
+    }
 }

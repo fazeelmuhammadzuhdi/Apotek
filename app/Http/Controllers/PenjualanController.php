@@ -21,11 +21,11 @@ class PenjualanController extends Controller
         $thnBulan = $now->year . $now->month;
         $cek = Penjualan::count();
         if ($cek == 0) {
-            $urut = 001;
+            $urut = 1000000;
             $nomer = 'NT' . $thnBulan . $urut;
         } else {
             $ambil = Penjualan::all()->last();
-            $urut = (int)substr($ambil->nota, -5) + 1;
+            $urut = (int)substr($ambil->nota, -1) + 1;
             $nomer = 'NT' . $thnBulan . $urut;
         }
         return view('owner.penjualan', compact('obat', 'tanggals', 'nomer'));
@@ -56,7 +56,6 @@ class PenjualanController extends Controller
         if ($validasi->fails()) {
             return response()->json(['success' => 0, 'text' => $validasi->errors()->first()], 422);
         }
-        dd($request->all());
 
         $pasien = [
             'nama' => $request->name,
@@ -67,9 +66,8 @@ class PenjualanController extends Controller
         ];
         $consumer = Pasien::create($pasien);
         $idPasien = $consumer->id;
-
         $penjualan = [
-            'nota' => $request->nota,
+            'nota' => $request->no,
             'tanggal' => $request->tanggal,
             'qty' => $request->qty,
             'diskon' => $request->diskon,
@@ -87,5 +85,52 @@ class PenjualanController extends Controller
         } else {
             return response()->json(['text' => 'Pembelian Gagal '], 422);
         }
+    }
+
+    public function data(Request $request)
+    {
+        $no = $request->id;
+        $data = Penjualan::join()
+            ->where('penjualans.nota', $no)->latest();
+
+        if (request()->ajax()) {
+            return datatables()->of($data)
+                ->addColumn('aksi', function ($data) {
+                    $button = ' <button class="hapus btn btn-sm btn-danger" id="' . $data->id . '" name="hapus">Hapus</button> ';
+                    return $button;
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+    }
+
+    public function hapus(Request $request)
+    {
+        $id = $request->id;
+        $hapusJual = Penjualan::find($id);
+        $stock = StockObat::where('idObat', $hapusJual->item)->first();
+        $tambah = $hapusJual->qty + $stock->stock;
+        $stock->update(['stock' => $tambah]);
+        if ($stock) {
+            $hapus = $hapusJual->delete();
+            return response()->json(['text' => 'Data Berhasil Di Kurangi'], 200);
+        } else {
+            return response()->json(['text' => 'Sistem Error'], 400);
+        }
+    }
+
+    public function hitung(Request $request)
+    {
+        $id = $request->id;
+        $data = Penjualan::hitung($id)->get();
+        $datas = Penjualan::where('nota', $id)->get();
+        $discount = [];
+
+        foreach ($datas as $key) {
+            array_push($discount, ($key->diskon / 100 * $key->subtotal));
+        }
+        $diskon = array_sum($discount);
+
+        return response()->json(['data' => $data, 'diskon' => $diskon], 200);
     }
 }

@@ -47,6 +47,8 @@ Route::group(['middleware' => ['role:owner']], function () {
 
     Route::get('penjualan-index', [PenjualanController::class, 'index'])->name('penjualan.index');
     Route::post('penjualan-store', [PenjualanController::class, 'store'])->name('penjualan.store');
+    Route::get('penjualan-data', [PenjualanController::class, 'data'])->name('penjualan.data');
+    Route::post('penjualan-hapus', [PenjualanController::class, 'hapus'])->name('penjualan.hapus');
 });
 
 require __DIR__ . '/auth.php';
