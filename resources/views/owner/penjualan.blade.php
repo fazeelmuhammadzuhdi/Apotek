@@ -80,8 +80,7 @@
                                 <label for="qty">Jumlah Pembelian</label>
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-danger btn-sm m-2">-</button>
-                                    <input type="text" class="form-control" id="qty"
-                                        name="qty"></input>
+                                    <input type="text" class="form-control" id="qty" name="qty">
                                     <button type="button" class="btn btn-success btn-sm m-2">+</button>
                                 </div>
                             </div>
