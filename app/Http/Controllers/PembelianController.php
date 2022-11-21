@@ -7,6 +7,7 @@ use App\Models\Pembelian;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PembelianController extends Controller
 {
@@ -28,5 +29,35 @@ class PembelianController extends Controller
             $nomer = 'FKTR' . $tanggal . $urut;
         }
         return view('owner.pembelian', compact('time', 'nomer', 'supp', 'kode'));
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $discount = ((int)$request->diskon / 100) * $request->subtotal;
+        $pajakk = ((int)$request->pajak / 100) * $request->subtotal;
+        $bersih = ((int)$request->subtotal + $pajakk) - $discount;
+        $data = [
+            'faktur' => $request->faktur,
+            'item' => $request->item,
+            'harga' => $request->harga,
+            'qty' => $request->qty,
+            'tanggal' => $request->tanggal,
+            'totalkotor' => $request->subtotal,
+            'pajak' => $pajakk,
+            'diskon' => $discount,
+            'totalbersih' => $bersih,
+            'keterangan' => $request->keterangan,
+            'supplier' => $request->supplier,
+            'admin' => Auth::user()->id
+        ];
+
+        $simpan = Pembelian::create($data);
+
+        if ($simpan) {
+            return response()->json(['text' => 'Data Berhasil Di Simpan '], 200);
+        } else {
+            return response()->json(['text' => 'Gangguan System'], 400);
+        }
     }
 }

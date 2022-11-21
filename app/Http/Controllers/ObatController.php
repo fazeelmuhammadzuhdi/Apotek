@@ -95,4 +95,12 @@ class ObatController extends Controller
             return response()->json(['text' => 'Data Gagal Di Hapus'], 400);
         }
     }
+
+    public function getKode(Request $request)
+    {
+        $kode = $request->kode;
+        $data = Obat::where('id', $kode)->get();
+
+        return response()->json($data, 200);
+    }
 }

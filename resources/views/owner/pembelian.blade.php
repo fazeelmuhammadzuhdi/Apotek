@@ -11,7 +11,7 @@
 
                         <div class="row">
                             <div class="col-9">
-                                <form action="" method="POST" id="form-beli">
+                                <form action="{{ route('pembelian.store') }}" method="POST" id="form-beli">
                                     @csrf
                                     <div class="row">
                                         <div class="form-group col-3">
@@ -49,18 +49,20 @@
                                     <div class="row">
                                         <div class="form-group col-3">
                                             <label for="">Nama Barang</label>
-                                            <input type="text" class="form-control" name="barang" id="barang"
+                                            <input type="text" class="form-control" name="item" id="item"
                                                 autocomplete="off">
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="">Harga Barang</label>
                                             <input type="text" class="form-control" name="harga" id="harga"
-                                                autocomplete="off" onkeypress="return number(event)" maxlength="10">
+                                                autocomplete="off" onkeypress="return number(event)" maxlength="10"
+                                                value="0">
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="">Jumlah Pembelian</label>
                                             <input type="text" class="form-control" name="qty" id="qty"
-                                                autocomplete="off" onkeypress="return number(event)" maxlength="4">
+                                                autocomplete="off" onkeypress="return number(event)" maxlength="4"
+                                                value="0">
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="">Sub Total</label>
@@ -72,12 +74,14 @@
                                         <div class="form-group col-3">
                                             <label for="">Pajak</label>
                                             <input type="text" class="form-control" name="pajak" id="pajak"
-                                                autocomplete="off" onkeypress="return number(event)" maxlength="2">
+                                                value="0" autocomplete="off" onkeypress="return number(event)"
+                                                maxlength="2">
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="">Diskon</label>
                                             <input type="text" class="form-control" name="diskon" id="diskon"
-                                                autocomplete="off" onkeypress="return number(event)" maxlength="2">
+                                                value="0" autocomplete="off" onkeypress="return number(event)"
+                                                maxlength="2">
                                         </div>
                                         <div class="form-group col-3">
                                             <label for="">keterangan</label>
@@ -201,4 +205,68 @@
         }
         return true;
     }
+
+
+    $(document).on('change', '#kode', function() {
+        carikode($(this).val());
+    })
+
+    function carikode(kode) {
+        $.ajax({
+            type: "post",
+            url: "{{ route('carikode') }}",
+            data: {
+                kode: kode,
+            },
+            success: function(response) {
+                if (response.length > 0) {
+                    $('#item').val(response[0].nama)
+                } else {
+                    $('#item').val(null)
+                }
+                console.log(response);
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
+    }
+
+    $(document).on('blur', '#qty', function() {
+        let harga = parseInt($('#harga').val())
+        let qty = parseInt($(this).val())
+        $('#subtotal').val(qty * harga)
+    });
+
+    $(document).on('blur', '#harga', function() {
+        let harga = parseInt($('#harga').val())
+        let qty = parseInt($('#qty').val())
+        $('#subtotal').val(qty * harga)
+    });
+
+    $(document).on('submit', 'form', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            typeData: "JSON",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(response);
+                // menutup tombol simpan ketika di sudah di click
+                // $('#obat').prop('disabled', true)
+                // $('#qty').attr('disabled', true)
+                // $('#diskon').attr('disabled', true)
+                // $('#tambah').hide()
+                // $('#table1').DataTable().ajax.reload()
+                // $('#form-beli')[0].reset();
+                toastr.success(response.text, 'Success')
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON.text, 'Gagal!')
+            }
+        });
+    })
 </script>

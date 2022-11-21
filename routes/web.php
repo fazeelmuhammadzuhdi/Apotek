@@ -52,7 +52,7 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::post('penjualan-hapus', [PenjualanController::class, 'hapus'])->name('penjualan.hapus');
 
     Route::get('pembelian-index', [PembelianController::class, 'index'])->name('pembelian.index');
-
+    Route::post('pembelian-store', [PembelianController::class, 'store'])->name('pembelian.store');
 });
 
 require __DIR__ . '/auth.php';
