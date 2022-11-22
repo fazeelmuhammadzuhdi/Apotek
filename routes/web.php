@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StockObatController;
@@ -55,6 +56,8 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::post('pembelian-store', [PembelianController::class, 'store'])->name('pembelian.store');
     Route::post('pembelian-hapus', [PembelianController::class, 'hapus'])->name('pembelian.hapus');
     Route::post('pembelian-bayar', [PembelianController::class, 'bayar'])->name('pembelian.bayar');
+
+    Route::post('pembayaran-store', [PembayaranController::class, 'store'])->name('pembayaran.store');
 });
 
 require __DIR__ . '/auth.php';

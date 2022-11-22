@@ -83,7 +83,7 @@
                                                 maxlength="2">
                                         </div>
                                         <div class="form-group col-3">
-                                            <label for="">keterangan</label>
+                                            <label for="">Keterangan</label>
                                             <input type="text" class="form-control" name="keterangan"
                                                 id="keterangan" autocomplete="off">
                                         </div>
@@ -358,7 +358,7 @@
     //     $('#$subtotal').val(0);
     //     $('#$pajak').val(0);
     //     $('#$diskon').val(0);
-    //     $('#$keterangan').val(null);
+    //     $('#$k eterangan').val(null);
     // }
 
     $(document).on('click', '#proses', function() {
@@ -373,9 +373,38 @@
             },
             success: function(response) {
                 console.log(response);
+                $('#ttlkotor').val(response.data[0].total_kotor);
+                $('#ttlpajak').val(response.data[0].pajaks);
+                $('#ttldiskon').val(response.data[0].diskons);
+                $('#grand').val(response.data[0].total_bersih);
             },
             error: function(xhr) {
                 console.log(xhr);
+            }
+        });
+    });
+
+    $(document).on('click', '#simpanBeli', function() {
+        $.ajax({
+            type: "post",
+            url: "{{ route('pembayaran.store') }}",
+            data: {
+                nota: $('#faktur').val(),
+                total: $('#ttlkotor').val(),
+                pajak: $('#ttlpajak').val(),
+                diskon: $('#ttldiskon').val(),
+                totalbersih: $('#grand').val(),
+                dibayar: $('#dibayar').val(),
+                status: $('#metode').val(),
+                // kembali: $('#grand').val(),
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log(response);
+                toastr.success(response.text)
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON.text, 'Gagal!')
             }
         });
 
