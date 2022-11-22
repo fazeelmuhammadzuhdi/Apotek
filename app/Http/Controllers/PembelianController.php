@@ -60,4 +60,38 @@ class PembelianController extends Controller
             return response()->json(['text' => 'Gangguan System'], 400);
         }
     }
+
+    public function dataTable(Request $request)
+    {
+        $faktur = $request->faktur;
+        $data = Pembelian::join()
+            ->where('pembelians.faktur', $faktur)
+            ->select('pembelians.*', 'suppliers.nama as suppliers')
+            ->latest();
+
+        if (request()->ajax()) {
+            if (!empty($faktur)) {
+                return datatables()->of($data)
+                    ->addColumn('aksi', function ($data) {
+                        $button = ' <button class="hapus btn btn-sm btn-danger" id="' . $data->id . '" name="hapus">Hapus</button> ';
+                        return $button;
+                    })
+                    ->rawColumns(['aksi'])
+                    ->make(true);
+            }
+        }
+    }
+
+    public function hapus(Request $request)
+    {
+        $id = $request->id;
+        $data = Pembelian::find($id);
+        $hapus = $data->delete();
+
+        if ($hapus) {
+            return response()->json(['text' => 'Data Berhasil Di Hapus '], 200);
+        } else {
+            return response()->json(['text' => 'Gagal Di Hapus'], 400);
+        }
+    }
 }

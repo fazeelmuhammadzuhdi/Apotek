@@ -53,6 +53,7 @@ Route::group(['middleware' => ['role:owner']], function () {
 
     Route::get('pembelian-index', [PembelianController::class, 'index'])->name('pembelian.index');
     Route::post('pembelian-store', [PembelianController::class, 'store'])->name('pembelian.store');
+    Route::post('pembelian-hapus', [PembelianController::class, 'hapus'])->name('pembelian.hapus');
 });
 
 require __DIR__ . '/auth.php';

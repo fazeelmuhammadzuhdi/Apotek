@@ -119,7 +119,7 @@
                                                 <th>Pajak</th>
                                                 <th>Diskon</th>
                                                 <th>Total Harga</th>
-                                                <th>Aksi</th>
+                                                <th width="10%">Aksi</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -206,6 +206,66 @@
         return true;
     }
 
+    function isi(faktur) {
+        $('#table1').DataTable({
+            serverside: true,
+            processing: true,
+            ajax: {
+                url: "{{ route('data.table') }}",
+                data: {
+                    faktur: faktur
+                }
+            },
+            columns: [{
+                    data: null,
+                    "sortable": false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'suppliers',
+                    name: 'suppliers'
+                },
+                {
+                    data: 'item',
+                    name: 'item'
+                },
+                {
+                    data: 'harga',
+                    name: 'harga',
+                },
+                {
+                    data: 'qty',
+                    name: 'qty',
+
+                },
+                {
+                    data: 'pajak',
+                    name: 'pajak',
+                    render: $.fn.dataTable.render.number(',', '.', 2)
+
+                },
+                {
+                    data: 'diskon',
+                    name: 'diskon',
+                    render: $.fn.dataTable.render.number(',', '.', 2)
+                },
+                {
+                    data: 'totalbersih',
+                    name: 'totalbersih',
+                    render: $.fn.dataTable.render.number(',', '.', 2)
+                },
+
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false
+                },
+            ]
+        })
+    }
+
 
     $(document).on('change', '#kode', function() {
         carikode($(this).val());
@@ -245,6 +305,7 @@
     });
 
     $(document).on('submit', 'form', function(event) {
+        let faktur = $('#faktur').val();
         event.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
@@ -254,15 +315,30 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log(response);
-                // menutup tombol simpan ketika di sudah di click
-                // $('#obat').prop('disabled', true)
-                // $('#qty').attr('disabled', true)
-                // $('#diskon').attr('disabled', true)
-                // $('#tambah').hide()
-                // $('#table1').DataTable().ajax.reload()
-                // $('#form-beli')[0].reset();
+                // console.log(response);
                 toastr.success(response.text, 'Success')
+                $('#table1').DataTable().destroy()
+                // $('#form-beli')[0].reset();
+                isi(faktur)
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON.text, 'Gagal!')
+            }
+        });
+    })
+
+    $(document).on('click', '.hapus', function() {
+        let id = $(this).attr('id');
+        $.ajax({
+            type: "post",
+            url: "{{ route('pembelian.hapus') }}",
+            data: {
+                id: id,
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                toastr.success(response.text)
+                $('#table1').DataTable().ajax.reload()
             },
             error: function(xhr) {
                 toastr.error(xhr.responseJSON.text, 'Gagal!')

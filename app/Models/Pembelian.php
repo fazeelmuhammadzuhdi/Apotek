@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Pembelian extends Model
 {
@@ -24,4 +25,11 @@ class Pembelian extends Model
         'supplier',
         'admin'
     ];
+
+    public static function join()
+    {
+        return DB::table('pembelians')
+            ->join('suppliers', 'suppliers.id', '=', 'pembelians.supplier')
+            ->join('users', 'users.id', '=', 'pembelians.admin');
+    }
 }
