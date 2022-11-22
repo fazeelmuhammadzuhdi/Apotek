@@ -26,8 +26,8 @@
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="mr-sm-2">Nama Supplier</label>
-                                            <select name="supplier" id="supplier"
-                                                class="custom-select js-example-basic-single mr-sm-2 form-control">
+                                            <select class="custom-select js-example-basic-single mr-sm-2 form-control"
+                                                name="supplier" id="supplier">
                                                 <option value="" selected disabled>Pilih</option>
                                                 @foreach ($supp as $id => $nama)
                                                     <option value="{{ $id }}">{{ $nama }}</option>
@@ -36,10 +36,9 @@
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="mr-sm-2">Kode Barang</label>
-                                            <select name="kode" id="kode"
-                                                class="custom-select js-example-basic-single mr-sm-2 form-control"
-                                                required>
-                                                <option value="" selected disabled>Masukkan Kode</option>
+                                            <select class="custom-select js-example-basic-single mr-sm-2 form-control"
+                                                required name="kode" id="kode">
+                                                <option value="" selected disabled>Pilih Kode</option>
                                                 @foreach ($kode as $key)
                                                     <option value="{{ $key->id }}">{{ $key->kode }}</option>
                                                 @endforeach
@@ -129,7 +128,7 @@
                                     Acc / Proses
                                 </button>
                             </div>
-                            <div class="col-3">
+                            <div class="col-3" id="prosesHitung">
                                 <div class="form-group">
                                     <label for="">Dibayar Dengan</label>
                                     <select name="metode" id="metode" class="form-control">
@@ -189,14 +188,19 @@
     </div>
 
 </x-app-layout>
-@stack('js')
-<script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 <script>
-    // $(document).ready(function() {
-    // });
+    $(document).ready(function() {
+        // $('#supplier').select2();
+        // $('#kode').select2({
+        //     tags: true
+        // });
+        $('#prosesHitung').hide();
+    })
+
 
     function number(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode
@@ -319,6 +323,7 @@
                 toastr.success(response.text, 'Success')
                 $('#table1').DataTable().destroy()
                 // $('#form-beli')[0].reset();
+                // kosong()
                 isi(faktur)
             },
             error: function(xhr) {
@@ -345,4 +350,34 @@
             }
         });
     })
+
+    // function kosong() {
+    //     $('#$item').val(null);
+    //     $('#$harga').val(0);
+    //     $('#$qty').val(0);
+    //     $('#$subtotal').val(0);
+    //     $('#$pajak').val(0);
+    //     $('#$diskon').val(0);
+    //     $('#$keterangan').val(null);
+    // }
+
+    $(document).on('click', '#proses', function() {
+        $('#prosesHitung').show()
+        let id = $('#faktur').val()
+        $.ajax({
+            type: "post",
+            url: "{{ route('pembelian.bayar') }}",
+            data: {
+                id: id,
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
+
+    });
 </script>

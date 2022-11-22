@@ -94,4 +94,14 @@ class PembelianController extends Controller
             return response()->json(['text' => 'Gagal Di Hapus'], 400);
         }
     }
+
+    public function bayar(Request $request)
+    {
+        $faktur = $request->id;
+        $data = Pembelian::hitung($faktur)
+            ->groupBy('faktur')
+            ->get();
+
+        return response()->json(['data' => $data], 200);
+    }
 }

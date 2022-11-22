@@ -32,4 +32,15 @@ class Pembelian extends Model
             ->join('suppliers', 'suppliers.id', '=', 'pembelians.supplier')
             ->join('users', 'users.id', '=', 'pembelians.admin');
     }
+
+    public static function hitung(String $id)
+    {
+        return DB::table('pembelians')
+            ->where('faktur', $id)
+            // ->select('*')
+            ->selectRaw('SUM(totalkotor) as total_kotor')
+            ->selectRaw('SUM(pajak) as pajaks')
+            ->selectRaw('SUM(totalbersih) as total_bersih')
+            ->selectRaw('SUM(diskon) as diskons');
+    }
 }
