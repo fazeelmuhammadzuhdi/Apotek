@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
@@ -26,3 +27,5 @@ Route::post('getDataObat', [StockObatController::class, 'getDataObat'])->name('g
 Route::post('hitung', [PenjualanController::class, 'hitung'])->name('hitung');
 Route::post('carikode', [ObatController::class, 'getKode'])->name('carikode');
 Route::get('dataTable', [PembelianController::class, 'dataTable'])->name('data.table');
+Route::post('detailjual', [LaporanController::class, 'detailJual'])->name('detail-jual');
+Route::post('detailbeli', [LaporanController::class, 'detailBeli'])->name('detail-beli');

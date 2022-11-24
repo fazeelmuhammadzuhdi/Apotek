@@ -58,7 +58,7 @@ class PenjualanController extends Controller
         }
 
         $pasien = [
-            'nama' => $request->name,
+            'nama' => $request->nama,
             'telp' => $request->telp,
             'alamat' => $request->alamat,
             'resep' => $request->resep,

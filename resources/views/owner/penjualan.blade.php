@@ -348,8 +348,8 @@
             success: function(response) {
                 // console.log(response);
                 $('#table1').DataTable().ajax.reload()
+                // $('#table1')[0].reset();
                 toastr.success(response.text, 'Success')
-                // $('#sample_form')[0].reset();
 
             },
             error: function(xhr) {
