@@ -216,7 +216,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{ route('laporan.index') }}" class="nav-link">
                                             <i class="nav-icon fas fa-laptop-medical"></i>
                                             <p>Laporan Pembayaran</p>
                                         </a>
@@ -403,7 +403,7 @@
 
     </div>
 
-    
+
     <script src={{ asset('plugins/jquery/jquery.min.js') }}></script>
 
     <script src={{ asset('plugins/jquery-ui/jquery-ui.min.js') }}></script>

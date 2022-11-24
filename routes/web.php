@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PembelianController;
@@ -58,6 +59,10 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::post('pembelian-bayar', [PembelianController::class, 'bayar'])->name('pembelian.bayar');
 
     Route::post('pembayaran-store', [PembayaranController::class, 'store'])->name('pembayaran.store');
+
+    Route::get('laporan-index', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('pembayaran-datatablejual', [LaporanController::class, 'dataTablePenjualan'])->name('dataTablePenjualan');
+    Route::get('pembayaran-datatablebeli', [LaporanController::class, 'dataTablePembelian'])->name('dataTableBelanja');
 });
 
 require __DIR__ . '/auth.php';
