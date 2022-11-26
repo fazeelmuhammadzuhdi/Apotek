@@ -27,8 +27,7 @@ class StockObat extends Model
     {
         $data = DB::table('stock_obats')->join('obats', 'obats.id', 'stock_obats.idObat')
             ->join('users', 'users.id', 'stock_obats.admin')
-            ->select('stock_obats.*', 'obats.nama as namaObat', 'users.name as admins')
-            ->get();
+            ->select('stock_obats.*', 'obats.nama as namaObat', 'users.name as admins');
         return $data;
     }
 }

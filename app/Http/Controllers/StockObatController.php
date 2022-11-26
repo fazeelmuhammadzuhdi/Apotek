@@ -87,4 +87,49 @@ class StockObatController extends Controller
         $data = StockObat::where('idObat', $request->id)->first();
         return response()->json($data);
     }
+
+    public function edit(Request $request)
+    {
+        // $id = $request->id;
+        // $data = StockObat::find($id);
+
+        $id = $request->id;
+        $data = StockObat::join($id)->where('stock_obats.id', $id)->first();
+
+        return response()->json($data);
+    }
+
+    public function update(Request $request)
+    {
+        $datas = [
+            'masuk' => $request->masuk,
+            'keluar' => $request->keluar,
+            'jual' => $request->jual,
+            'beli' => $request->beli,
+            'expired' => $request->expired,
+            'stock' => $request->stock,
+            'keterangan' => $request->keterangan,
+            'admin' => Auth::user()->id,
+        ];
+        $data = StockObat::find($request->id);
+        $simpan = $data->update($datas);
+
+        if ($simpan) {
+            return response()->json(['text' => 'Data Berhasil Di Update'], 200);
+        } else {
+            return response()->json(['text' => 'Data Gagal Di Update'], 400);
+        }
+    }
+
+    public function hapus(Request $request)
+    {
+        $data = StockObat::find($request->id);
+        $simpan = $data->delete();
+
+        if ($simpan) {
+            return response()->json(['text' => 'Data Berhasil Di Hapus'], 200);
+        } else {
+            return response()->json(['text' => 'Data Gagal Di Hapus'], 400);
+        }
+    }
 }

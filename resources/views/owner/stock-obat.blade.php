@@ -127,11 +127,14 @@
 {{-- <script src="{{ asset('plugins/air-datepicker/air-datepicker.js') }}"></script> --}}
 {{-- <script src="{{ asset('plugins/air-datepicker/locale/en.js') }}"></script> --}}
 <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <script>
     $(document).ready(function() {
         loaddata()
+        // $('#obat').select2();
         toastr.info('Are you the 6 fingered man?')
     });
 
@@ -230,7 +233,7 @@
                 _token: "{{ csrf_token() }}"
             },
             success: function(response) {
-                $('#stockawal').val(response.data.stock)
+                // $('#stockawal').val(response.data.stock)
                 console.log(response);
             },
             error: function(xhr) {
@@ -255,5 +258,82 @@
 
         let akhir = (awal + masuk) - keluar
         $('#stock').val(akhir)
+    })
+
+    $(document).on('click', '.edit', function() {
+        $('#forms').attr('action', "{{ route('stock.update') }}")
+        $('#btn-tambah').click()
+        let id = $(this).attr('id')
+        $.ajax({
+            type: "post",
+            url: "{{ route('stock.edit') }}",
+            data: {
+                id: id,
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                let newOption = new Option(response.namaObat, response.IdObat, true, true)
+                $('#obat').append(newOption).trigger('change');
+                $('#id').val(response.id);
+                $('#obat').prop('disabled', true);
+                $('#stockawal').val(response.stock);
+                $('#beli').val(response.beli);
+                $('#jual').val(response.jual);
+                $('#expired').val(response.expired);
+                $('#keterangan').val(response.keterangan);
+                console.log(response);
+            },
+            error: function(xhr) {
+                toastr.error(xhr.responseJSON.text, 'Gagal!')
+            }
+        });
+    })
+
+    $(document).on('click', '.hapus', function() {
+        let id = $(this).attr('id')
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('stock.hapus') }}",
+                    data: {
+                        id: id,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response, status) {
+                        if (status = '200') {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Data Berhasil Di Hapus',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((response) => {
+                                    $('#table').DataTable().ajax.reload()
+
+                                })
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Gagal Menghapus!',
+                        })
+                    }
+                });
+            }
+        })
+
     })
 </script>

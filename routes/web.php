@@ -46,6 +46,9 @@ Route::group(['middleware' => ['role:owner']], function () {
 
     Route::get('stock-index', [StockObatController::class, 'index'])->name('stock.index');
     Route::post('stock-store', [StockObatController::class, 'store'])->name('stock.store');
+    Route::post('stock-hapus', [StockObatController::class, 'hapus'])->name('stock.hapus');
+    Route::post('stock-edit', [StockObatController::class, 'edit'])->name('stock.edit');
+    Route::post('stock-update', [StockObatController::class, 'update'])->name('stock.update');
 
 
     Route::get('penjualan-index', [PenjualanController::class, 'index'])->name('penjualan.index');

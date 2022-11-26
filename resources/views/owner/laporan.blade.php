@@ -66,6 +66,9 @@
             </div>
         </div>
     </div>
+
+    {{-- <a href="{{ route('exportLaporan') }}">Export Ke Excel</a> --}}
+
     {{-- Modal JUAL --}}
     <div class="modal fade" id="modal-lg">
         <div class="modal-dialog modal-lg">
