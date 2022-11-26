@@ -188,6 +188,7 @@
     </div>
 
 </x-app-layout>
+@stack('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>

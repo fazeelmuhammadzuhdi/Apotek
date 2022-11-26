@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\OpnameController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
@@ -66,6 +67,12 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::get('laporan-index', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('pembayaran-datatablejual', [LaporanController::class, 'dataTablePenjualan'])->name('dataTablePenjualan');
     Route::get('pembayaran-datatablebeli', [LaporanController::class, 'dataTablePembelian'])->name('dataTableBelanja');
+
+    Route::get('opname', [OpnameController::class, 'index'])->name('opname-index');
+    Route::post('opname-store', [OpnameController::class, 'store'])->name('opname-store');
+    Route::get('opname-databelanja', [OpnameController::class, 'databelanja'])->name('opname-databelanja');
+    Route::get('opname-datajual', [OpnameController::class, 'datajual'])->name('opname-datajual');
+    Route::post('opname-cekstock', [OpnameController::class, 'cekStock'])->name('opname-cekstock');
 });
 
 require __DIR__ . '/auth.php';

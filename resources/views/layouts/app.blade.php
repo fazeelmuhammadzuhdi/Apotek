@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     {{-- <link rel="stylesheet" href="{{ asset('plugins/air-datepicker/air-datepicker.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     {{-- <link rel="stylesheet" href={{ asset('plugins/daterangepicker/daterangepicker.css') }}> --}}
 
     {{-- <link rel="stylesheet" href={{ asset('plugins/summernote/summernote-bs4.min.css') }}> --}}
@@ -185,7 +187,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{ route('opname-index') }}" class="nav-link">
                                             <i class="fas fa-notes-medical nav-icon"></i>
                                             <p>Opname Barang</p>
                                         </a>
