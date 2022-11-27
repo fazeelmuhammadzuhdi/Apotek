@@ -6,11 +6,19 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="card card-warning">
-            <div class="card-header">
-                <div class="card-title">Katalog stock</div>
+        @if (Auth::user()->hasRole('gudang'))
+            <div class="card card-success">
+                <div class="card-header">
+                    <div class="card-title">Katalog Stock Obat</div>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="card card-warning">
+                <div class="card-header">
+                    <div class="card-title">Katalog Stock Obat</div>
+                </div>
+            </div>
+        @endif
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <table class="table table-striped" id="table" style="width: 100%">
@@ -24,7 +32,7 @@
                             <th>Keterangan</th>
                             <th>Update Terakhir</th>
                             <th>Admin</th>
-                            <th width="15%">Aksi</th>
+                            <th width="15%" @if (\Laratrust::hasRole('kasir')) hidden @endif>Aksi</th>
                         </tr>
                     </thead>
                 </table>
@@ -97,8 +105,8 @@
                         </div>
                         <div class="form-group">
                             <label for="">Harga Jual</label>
-                            <input type="text" class="form-control" autocomplete="off" name="jual" id="jual"
-                                onkeypress="return number(event)" maxlength="12">
+                            <input type="text" class="form-control" autocomplete="off" name="jual"
+                                id="jual" onkeypress="return number(event)" maxlength="12">
                         </div>
                         <div class="form-group">
                             <label for="">Tanggal Expired</label>

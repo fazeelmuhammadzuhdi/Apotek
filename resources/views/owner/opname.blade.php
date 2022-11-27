@@ -35,6 +35,11 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-user-edit"></i> Data Belanja Item</div>
+                            </div>
+                        </div>
                         <table class="table table-bordered table-striped table-sm" id="tabelbelanja">
                             <thead>
                                 <tr>
@@ -47,6 +52,11 @@
                         </table>
                     </div>
                     <div class="col-6">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-user-edit"></i> Data Penjualan Item</div>
+                            </div>
+                        </div>
                         <table class="table table-bordered table-striped table-sm" id="tabeljual">
                             <thead>
                                 <tr>

@@ -6,9 +6,14 @@
     </x-slot>
 
     <div class="py-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <div class="card-title">Katalog Obat</div>
+            </div>
+        </div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <table class="table table-striped" id="table" style="width: 100%">
+                <table class="table table-striped table-bordered" id="table" style="width: 100%">
                     <thead>
                         <tr>
                             <th>Nama</th>

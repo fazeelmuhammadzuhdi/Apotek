@@ -243,19 +243,19 @@
                         @endrole
                         @role('gudang')
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('obat.index') }}" class="nav-link">
                                     <i class="nav-icon far fa-calendar-alt"></i>
                                     <p> Katalog Obat </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('stock.index') }}" class="nav-link">
                                     <i class="nav-icon far fa-calendar-alt"></i>
                                     <p> Stock Obat </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('opname-index') }}" class="nav-link">
                                     <i class="nav-icon far fa-calendar-alt"></i>
                                     <p> Opname Barang </p>
                                 </a>
@@ -263,13 +263,13 @@
                         @endrole
                         @role('kasir')
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('stock.index') }}" class="nav-link">
                                     <i class="nav-icon fas fa-database"></i>
                                     <p> Stock Obat </p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('penjualan.index') }}" class="nav-link">
                                     <i class="nav-icon fas fa-money-bill text-danger"></i>
                                     <p> Transaksi Penjualan </p>
                                 </a>
