@@ -139,14 +139,23 @@
 
                             </div>
                             <div class="col-3">
-                                {{-- <form action="" method="">
+                                <form action="{{ route('cetakNota') }}" method="POST">
                                     @csrf
-                                </form> --}}
+                                    <input type="text" autocomplete="off" onkeypress="return number(event)"
+                                        maxlength="12" name="kwitansi" id="kwitansi" class="form-control"
+                                        value="{{ $nomer }}" hidden>
+
+                                    <button id="cetak" name="cetak" class="btn btn-danger float-left"><i
+                                            class="far fa-file-pdf"></i>&nbsp; Cetak Slip</button>
+                                </form>
 
                                 <button type="button" class="btn btn-info mb-3" id="btn-bayar" name="btn-bayar"
                                     data-toggle="modal" data-target="#modal-info" id="btn-modal"><i
                                         class="fas fa-money-bill-wave"></i>
                                     Proses
+                                </button>
+
+                                <button class="transaksiBaru btn btn-warning" id="transaksiBaru">Transaksi Baru
                                 </button>
                             </div>
                         </div>
@@ -224,15 +233,18 @@
 
 </x-app-layout>
 @stack('js')
-<script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.8/dist/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 
 <script>
-    // $(document).ready(function() {
-    //     $('#obat').select2();
-    // });
+    $(document).ready(function() {
+        $('#obat').select2();
+        // $('#cetak').hide();
+        $('#transaksiBaru').hide();
+    });
 
     //Input Harus Number
     function number(evt) {
@@ -367,7 +379,7 @@
         $('#diskon').attr('disabled', false)
     })
 
-    $(document).click(function() {
+    $('#btn-bayar').click(function() {
         let id = $('#no').val();
         $.ajax({
             type: "post",
@@ -399,5 +411,28 @@
             $('#kembalian').val(c)
             $('#simpanBayar').show()
         }
+    })
+
+    $('#simpanBayar').click(function() {
+        $.ajax({
+            type: "post",
+            url: "{{ route('pembayaran.store') }}",
+            data: {
+                kembali: $('#kembalian').val(),
+                total: $('#yangHarus').val(),
+                diskon: $('#diskonn').val(),
+                dibayar: $('#dibayar').val(),
+                nota: $('#nota').val(),
+                kembali: $('#kembalian').val(),
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                toastr.success(response.text, 'Success')
+                $('#btn-tutup').click()
+                $('#tambah').hide()
+                $('#cetak').show()
+                $('#transaksiBaru').show()
+            }
+        });
     })
 </script>

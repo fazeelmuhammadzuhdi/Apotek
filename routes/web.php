@@ -78,6 +78,9 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::get('laporan-index', [LaporanController::class, 'index'])->name('laporan.index');
     Route::get('pembayaran-datatablejual', [LaporanController::class, 'dataTablePenjualan'])->name('dataTablePenjualan');
     Route::get('pembayaran-datatablebeli', [LaporanController::class, 'dataTablePembelian'])->name('dataTableBelanja');
+
+    Route::post('cetak-nota', [PenjualanController::class, 'cetakNota'])->name('cetakNota');
+
 });
 
 require __DIR__ . '/auth.php';

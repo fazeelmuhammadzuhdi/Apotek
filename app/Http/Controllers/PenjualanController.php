@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenjualanController extends Controller
 {
@@ -132,5 +133,12 @@ class PenjualanController extends Controller
         $diskon = array_sum($discount);
 
         return response()->json(['data' => $data, 'diskon' => $diskon], 200);
+    }
+
+    public function cetakNota(Request $request)
+    {
+        $nota = $request->kwitansi;
+        $pdf = Pdf::loadView('owner.cetak-nota', [$nota]);
+        return $pdf->download('invoice.pdf');
     }
 }
