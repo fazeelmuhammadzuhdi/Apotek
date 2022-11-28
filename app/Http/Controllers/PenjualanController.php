@@ -138,7 +138,13 @@ class PenjualanController extends Controller
     public function cetakNota(Request $request)
     {
         $nota = $request->kwitansi;
-        $pdf = Pdf::loadView('owner.cetak-nota', [$nota]);
+        $data = Penjualan::joinCetak()
+            ->where('penjualans.nota', $nota)
+            ->get();
+        $bruto = Penjualan::joinCetak()
+            ->where('penjualans.nota', $nota)
+            ->selectRaw('SUM(subtotal) as bruto')->groupBy('penjualans.nota')->get();
+        $pdf = Pdf::loadView('owner.cetak-nota', compact('data', 'bruto'));
         return $pdf->download('invoice.pdf');
     }
 }

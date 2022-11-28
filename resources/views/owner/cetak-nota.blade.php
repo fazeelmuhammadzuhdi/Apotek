@@ -23,26 +23,27 @@
                     <tr>
                         <td>No Nota</td>
                         <td>:</td>
-                        <td></td>
+                        <td>{{ $data[0]->nota }}</td>
                     </tr>
                     <tr>
                         <td>Customer</td>
                         <td>:</td>
-                        <td></td>
+                        <td>{{ $data[0]->customer }}</td>
                     </tr>
                     <tr>
                         <td>No Telp</td>
                         <td>:</td>
-                        <td></td>
+                        <td>{{ $data[0]->telp }}</td>
                     </tr>
                     <tr>
                         <td>Kasir</td>
                         <td>:</td>
-                        <td></td>
+                        <td>{{ $data[0]->name }}</td>
                     </tr>
                 </table>
             </div>
         </div>
+
         <hr style="border: 1px solid red">
         <div>
             <table class="table table-bordered table-striped table-sm">
@@ -55,13 +56,75 @@
                         <th>Kemasan</th>
                         <th>Harga (Rp)</th>
                         <th>Total Harga (Jumlah)</th>
-                        <th width="10%">Aksi</th>
                     </tr>
-                    <tr>
-                        {{-- data --}}
-                    </tr>
+                    @foreach ($data as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $item->kode }}</td>
+                            <td>{{ $item->nama_obat }}</td>
+                            <td>{{ $item->qty }}</td>
+                            <td>{{ $item->satuan }}</td>
+                            <td>{{ $item->jual }}</td>
+                            <td>{{ $item->subtotal }}</td>
+                        </tr>
+                    @endforeach
                 </thead>
             </table>
+            <h1 style="color: white"></h1>
+            <h1 style="color: white"></h1>
+            <hr style="border: 1px solid red">
+        </div>
+        <div>
+            <table style="border:1em; width: 100%; table-layout: fixed">
+                <tr>
+                    <th width="40%"></th>
+                    <th width="20%"></th>
+                    <th width="15%"></th>
+                    <th width="10%"></th>
+                    <th width="15%"></th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Total </td>
+                    <td>: Rp.</td>
+                    <td style="text-align: right">{{ number_format($bruto[0]->bruto, 2) }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Discount </td>
+                    <td>: Rp.</td>
+                    <td style="text-align: right">{{ number_format($data[0]->diskon, 2) }}</td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Besar Uang </td>
+                    <td>: Rp.</td>
+                    <td style="text-align: right">{{ number_format($data[0]->dibayar, 2) }}</td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Pengembalian </td>
+                    <td>: Rp.</td>
+                    <td style="text-align: right">{{ number_format($data[0]->kembali, 2) }}</td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Total Bersih </td>
+                    <td>: Rp.</td>
+                    <td style="text-align: right">{{ number_format($data[0]->total, 2) }}</td>
+
+                </tr>
+            </table>
+            <hr style="border: 1px solid red">
+
         </div>
 
     </div>

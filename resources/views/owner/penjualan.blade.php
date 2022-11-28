@@ -242,7 +242,7 @@
 <script>
     $(document).ready(function() {
         $('#obat').select2();
-        // $('#cetak').hide();
+        $('#cetak').hide();
         $('#transaksiBaru').hide();
     });
 
@@ -297,7 +297,7 @@
                 $('#diskon').attr('disabled', true)
                 $('#tambah').hide()
                 $('#table1').DataTable().ajax.reload()
-                // $('#sample_form')[0].reset();
+                $('#sample_form')[0].reset();
                 toastr.success(response.text, 'Success')
             },
             error: function(xhr) {
@@ -432,6 +432,9 @@
                 $('#tambah').hide()
                 $('#cetak').show()
                 $('#transaksiBaru').show()
+                $('#table1').DataTable().ajax.reload()
+                $('#table1')[0].reset();
+
             }
         });
     })

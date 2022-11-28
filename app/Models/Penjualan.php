@@ -62,6 +62,7 @@ class Penjualan extends Model
                 'penjualans.*',
                 'obats.nama as nama_obat',
                 'obats.indikasi',
+                'obats.kode',
                 'obats.dosis',
                 'obats.satuan',
                 'pasiens.nama as customer',
