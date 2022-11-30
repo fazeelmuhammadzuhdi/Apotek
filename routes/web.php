@@ -23,8 +23,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('auth.login');
+})->middleware('auth');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -80,7 +80,6 @@ Route::group(['middleware' => ['role:owner']], function () {
     Route::get('pembayaran-datatablebeli', [LaporanController::class, 'dataTablePembelian'])->name('dataTableBelanja');
 
     Route::post('cetak-nota', [PenjualanController::class, 'cetakNota'])->name('cetakNota');
-
 });
 
 require __DIR__ . '/auth.php';
